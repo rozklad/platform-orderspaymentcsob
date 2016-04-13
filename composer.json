@@ -1,5 +1,5 @@
 {
-	"name": "sanatorium/shoporderspaymentcsob",
+	"name": "sanatorium/orderspaymentcsob",
 	"type": "platform-extension",
 	"description": "Payment service provider for CSOB payments",
 	"authors": [
@@ -35,7 +35,7 @@
 			"database/seeds"
 		],
 		"psr-4": {
-			"Sanatorium\\Shoporderspaymentcsob\\": "src/"
+			"Sanatorium\\Orderspaymentcsob\\": "src/"
 		}
 	},
 	"minimum-stability": "dev",

@@ -17,7 +17,7 @@ return [
 	|
 	*/
 
-	'name' => 'Shoporderspaymentcsob',
+	'name' => 'Orderspaymentcsob',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -32,7 +32,7 @@ return [
 	|
 	*/
 
-	'slug' => 'sanatorium/shoporderspaymentcsob',
+	'slug' => 'sanatorium/orderspaymentcsob',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -124,7 +124,7 @@ return [
 	*/
 
 	'providers' => [
-		'Sanatorium\Shoporderspaymentcsob\Providers\PaymentCsobServiceProvider'
+		'Sanatorium\Orderspaymentcsob\Providers\PaymentCsobServiceProvider'
 	],
 
 	/*
@@ -220,54 +220,54 @@ return [
 	{
 		$settings->find('platform')->section('shoporders', function ($s) {
 
-            $s->fieldset('shoporderspaymentcsob', function ($f) {
-                $f->name = trans('sanatorium/shoporderspaymentcsob::settings.title');
+            $s->fieldset('orderspaymentcsob', function ($f) {
+                $f->name = trans('sanatorium/orderspaymentcsob::settings.title');
 
                 $f->field('merchant_id', function ($f) {
-                    $f->name   = trans('sanatorium/shoporderspaymentcsob::settings.merchant_id.label');
-                    $f->info   = trans('sanatorium/shoporderspaymentcsob::settings.merchant_id.info');
+                    $f->name   = trans('sanatorium/orderspaymentcsob::settings.merchant_id.label');
+                    $f->info   = trans('sanatorium/orderspaymentcsob::settings.merchant_id.info');
                     $f->type   = 'input';
-                    $f->config = 'sanatorium-shoporderspaymentcsob.merchant_id';
+                    $f->config = 'sanatorium-orderspaymentcsob.merchant_id';
                 });
 
                 $f->field('api_url', function ($f) {
-                    $f->name   = trans('sanatorium/shoporderspaymentcsob::settings.api_url.label');
-                    $f->info   = trans('sanatorium/shoporderspaymentcsob::settings.api_url.info');
+                    $f->name   = trans('sanatorium/orderspaymentcsob::settings.api_url.label');
+                    $f->info   = trans('sanatorium/orderspaymentcsob::settings.api_url.info');
                     $f->type   = 'input';
-                    $f->config = 'sanatorium-shoporderspaymentcsob.api_url';
+                    $f->config = 'sanatorium-orderspaymentcsob.api_url';
                 });
 
                 $f->field('log', function ($f) {
-                    $f->name   = trans('sanatorium/shoporderspaymentcsob::settings.log.label');
-                    $f->info   = trans('sanatorium/shoporderspaymentcsob::settings.log.info');
+                    $f->name   = trans('sanatorium/orderspaymentcsob::settings.log.label');
+                    $f->info   = trans('sanatorium/orderspaymentcsob::settings.log.info');
                     $f->type   = 'radio';
-                    $f->config = 'sanatorium-shoporderspaymentcsob.log';
+                    $f->config = 'sanatorium-orderspaymentcsob.log';
 
                     $f->option(1, function ($o) {
                         $o->value = 1;
-                        $o->label = trans('sanatorium/shoporderspaymentcsob::settings.log.values.true');
+                        $o->label = trans('sanatorium/orderspaymentcsob::settings.log.values.true');
                     });
 
                     $f->option(0, function ($o) {
                         $o->value = 0;
-                        $o->label = trans('sanatorium/shoporderspaymentcsob::settings.log.values.false');
+                        $o->label = trans('sanatorium/orderspaymentcsob::settings.log.values.false');
                     });
                 });
 
                 $f->field('environment', function ($f) {
-                    $f->name   = trans('sanatorium/shoporderspaymentcsob::settings.environment.label');
-                    $f->info   = trans('sanatorium/shoporderspaymentcsob::settings.environment.info');
+                    $f->name   = trans('sanatorium/orderspaymentcsob::settings.environment.label');
+                    $f->info   = trans('sanatorium/orderspaymentcsob::settings.environment.info');
                     $f->type   = 'select';
-                    $f->config = 'sanatorium-shoporderspaymentcsob.environment';
+                    $f->config = 'sanatorium-orderspaymentcsob.environment';
 
                     $f->option('test', function ($o) {
                         $o->value = 'test';
-                        $o->label = trans('sanatorium/shoporderspaymentcsob::settings.environment.values.test');
+                        $o->label = trans('sanatorium/orderspaymentcsob::settings.environment.values.test');
                     });
 
                     $f->option('production', function ($o) {
                         $o->value = 'production';
-                        $o->label = trans('sanatorium/shoporderspaymentcsob::settings.environment.values.production');
+                        $o->label = trans('sanatorium/orderspaymentcsob::settings.environment.values.production');
                     });
                 });
 

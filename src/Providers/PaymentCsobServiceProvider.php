@@ -1,4 +1,4 @@
-<?php namespace Sanatorium\Shoporderspaymentcsob\Providers;
+<?php namespace Sanatorium\Orderspaymentcsob\Providers;
 
 use Cartalyst\Support\ServiceProvider;
 use Illuminate\Foundation\AliasLoader;
@@ -12,7 +12,7 @@ class PaymentCsobServiceProvider extends ServiceProvider {
 	{
 		// Register the default payment service
 		$this->app['sanatorium.shoporders.payment.services']->registerService(
-			'\Sanatorium\Shoporderspaymentcsob\Controllers\Services\CsobPaymentService'
+			'\Sanatorium\Orderspaymentcsob\Controllers\Services\CsobPaymentService'
 		);
 	}
 
@@ -34,10 +34,10 @@ class PaymentCsobServiceProvider extends ServiceProvider {
     {
         $config = realpath(__DIR__.'/../../config/config.php');
 
-        $this->mergeConfigFrom($config, 'sanatorium-shoporderspaymentcsob');
+        $this->mergeConfigFrom($config, 'sanatorium-orderspaymentcsob');
 
         $this->publishes([
-            $config => config_path('sanatorium-shoporderspaymentcsob.php'),
+            $config => config_path('sanatorium-orderspaymentcsob.php'),
         ], 'config');
     }
 

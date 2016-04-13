@@ -1,4 +1,4 @@
-<?php namespace Sanatorium\Shoporderspaymentcsob\Controllers\Services;
+<?php namespace Sanatorium\Orderspaymentcsob\Controllers\Services;
 
 use Log;
 use OndraKoupil\Csob\Client as CsobClient;
@@ -18,11 +18,11 @@ class CsobPaymentService {
 
 	public function __construct()
 	{
-		$this->name = trans('sanatorium/shoporderspaymentcsob::payment_services.csob.name');
-		$this->description = trans('sanatorium/shoporderspaymentcsob::payment_services.csob.description');
+		$this->name = trans('sanatorium/orderspaymentcsob::payment_services.csob.name');
+		$this->description = trans('sanatorium/orderspaymentcsob::payment_services.csob.description');
 	
-		$merchant_id = config('sanatorium-shoporderspaymentcsob.merchant_id');
-		$environment = config('sanatorium-shoporderspaymentcsob.environment');
+		$merchant_id = config('sanatorium-orderspaymentcsob.merchant_id');
+		$environment = config('sanatorium-orderspaymentcsob.environment');
 
 		$log_file_path = __DIR__ . sprintf("/../../../storage/csob.log");
 
@@ -48,7 +48,7 @@ class CsobPaymentService {
 			route('sanatorium.shoporders.cart.placed'),
 
 		    // API address URL
-			config('sanatorium-shoporderspaymentcsob.api_url')
+			config('sanatorium-orderspaymentcsob.api_url')
 			);
 
 		$this->client = new CsobClient($config);
@@ -65,7 +65,7 @@ class CsobPaymentService {
 		    $this->client->testPostConnection();
 
 		} catch (\Exception $e) {
-		    Log::critical('shoporderspaymentcsob: ' . $e->getMessage());
+		    Log::critical('orderspaymentcsob: ' . $e->getMessage());
 		}
 	}
 
@@ -82,7 +82,7 @@ class CsobPaymentService {
 	    |
 	    */
 	   
-	   	$allowed_currencies = config('sanatorium-shoporderspaymentcsob.allowed_currencies');
+	   	$allowed_currencies = config('sanatorium-orderspaymentcsob.allowed_currencies');
 
 		$active_currency = \Sanatorium\Shoppricing\Models\Currency::find( Product::getActiveCurrencyId() );
 		
@@ -100,14 +100,14 @@ class CsobPaymentService {
 	    |
 	    */
 	   
-	    $allowed_languages = config('sanatorium-shoporderspaymentcsob.allowed_languages');
+	    $allowed_languages = config('sanatorium-orderspaymentcsob.allowed_languages');
 
 	    $active_language = Language::getActiveLanguageLocale();
 
 	    if ( isset( $allowed_languages[$active_language] ) )
 	    	$language = $allowed_languages[$active_language];
 	    else
-	    	$language = config('sanatorium-shoporderspaymentcsob.fallback_language');
+	    	$language = config('sanatorium-orderspaymentcsob.fallback_language');
 
 		$payment->language = $language;
 
@@ -130,7 +130,7 @@ class CsobPaymentService {
 		foreach( Cart::items() as $item ) {
 			// Prevent "This version of banks's API supports only up to 2 cart items in single payment, 
 			// you can't add any more items." in test environment
-			if ( config('sanatorium-shoporderspaymentcsob.version') > 1.5 || $items_in_cart < 2 ) {
+			if ( config('sanatorium-orderspaymentcsob.version') > 1.5 || $items_in_cart < 2 ) {
 				$payment->addCartItem(
 					trim(Strings::shorten($item->get('name'), 20, "", true, true)), 
 					$item->get('quantity'), 
@@ -149,7 +149,7 @@ class CsobPaymentService {
 		foreach( $conditions as $name => $condition ) {
 			// Prevent "This version of banks's API supports only up to 2 cart items in single payment, 
 			// you can't add any more items." in test environment
-			if ( config('sanatorium-shoporderspaymentcsob.version') > 1.5 || $items_in_cart < 2 ) {
+			if ( config('sanatorium-orderspaymentcsob.version') > 1.5 || $items_in_cart < 2 ) {
 				$payment->addCartItem(
 					trim(Strings::shorten($name, 20, "", true, true)), 
 					1, 
@@ -169,7 +169,7 @@ class CsobPaymentService {
 
 				// Prevent "This version of banks's API supports only up to 2 cart items in single payment, 
 				// you can't add any more items." in test environment
-				if ( config('sanatorium-shoporderspaymentcsob.version') > 1.5 || $items_in_cart < 2 ) {
+				if ( config('sanatorium-orderspaymentcsob.version') > 1.5 || $items_in_cart < 2 ) {
 
 					$shipping_multiplier = 1;
 
@@ -222,7 +222,7 @@ class CsobPaymentService {
 
 			// Add total price to cart
 			$payment->addCartItem(
-				trim(Strings::shorten(trans('sanatorium/shoporderspaymentcsob::common.order_title', ['app' => config('platform.app.title')]), 20, "", true, true)), 
+				trim(Strings::shorten(trans('sanatorium/orderspaymentcsob::common.order_title', ['app' => config('platform.app.title')]), 20, "", true, true)), 
 				1,
 				$summary_total_price 
 			);
@@ -251,7 +251,7 @@ class CsobPaymentService {
 		try {
 			$response = $this->client->paymentInit($payment);
 		} catch (\RuntimeException $e) {
-			Log::info('shoporderspaymentcsob: ' . $e->getMessage());
+			Log::info('orderspaymentcsob: ' . $e->getMessage());
 			return redirect()->back()->withErrors(['Payment gate does not support your browser.']);
 		}
 
@@ -282,7 +282,7 @@ class CsobPaymentService {
 		try {
 			$result = $this->client->paymentReverse($order->payment->provider_id);
 		} catch(\RuntimeException $e) {
-			Log::info('shoporderspaymentcsob: ' . $e->getMessage());
+			Log::info('orderspaymentcsob: ' . $e->getMessage());
 			$result = false;
 		}
 
@@ -303,7 +303,7 @@ class CsobPaymentService {
 		extract($args);
 
 		if ( !isset($ignoreWrongPaymentStatusError) )
-			$ignoreWrongPaymentStatusError = config('sanatorium-shoporderspaymentcsob.ignoreWrongPaymentStatusError');
+			$ignoreWrongPaymentStatusError = config('sanatorium-orderspaymentcsob.ignoreWrongPaymentStatusError');
 
 		if ( !isset($amount) )
 			$amount = 0;
@@ -311,7 +311,7 @@ class CsobPaymentService {
 		try {
 			$result = $this->client->paymentRefund($order->payment->provider_id, $ignoreWrongPaymentStatusError, $amount * 100);
 		} catch(\RuntimeException $e) {
-			Log::info('shoporderspaymentcsob: ' . $e->getMessage());
+			Log::info('orderspaymentcsob: ' . $e->getMessage());
 			$result = false;
 		}
 
@@ -332,7 +332,7 @@ class CsobPaymentService {
 		extract($args);
 
 		if ( !isset($ignoreWrongPaymentStatusError) )
-			$ignoreWrongPaymentStatusError = config('sanatorium-shoporderspaymentcsob.ignoreWrongPaymentStatusError');
+			$ignoreWrongPaymentStatusError = config('sanatorium-orderspaymentcsob.ignoreWrongPaymentStatusError');
 
 		if ( !isset($amount) )
 			$amount = 0;
@@ -340,7 +340,7 @@ class CsobPaymentService {
 		try {
 			$result = $this->client->paymentClose($order->payment->provider_id, $ignoreWrongPaymentStatusError, $amount * 100);
 		} catch(\RuntimeException $e) {
-			Log::info('shoporderspaymentcsob: ' . $e->getMessage());
+			Log::info('orderspaymentcsob: ' . $e->getMessage());
 			$result = false;
 		}
 
@@ -389,7 +389,7 @@ class CsobPaymentService {
 	{
 		$status = $this->status($order);
 
-		return trans('sanatorium/shoporderspaymentcsob::statuses.'.$status);
+		return trans('sanatorium/orderspaymentcsob::statuses.'.$status);
 	}
 
 	public function isSuccess($order)
