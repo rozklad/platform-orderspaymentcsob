@@ -84,7 +84,7 @@ class CsobPaymentService {
 	   
 	   	$allowed_currencies = config('sanatorium-orderspaymentcsob.allowed_currencies');
 
-		$active_currency = \Sanatorium\Shoppricing\Models\Currency::find( Product::getActiveCurrencyId() );
+		$active_currency = \Sanatorium\Pricing\Models\Currency::find( Product::getActiveCurrencyId() );
 		
 		if ( !isset( $allowed_currencies[$active_currency->code] ) )
 			return redirect()->back()->withErrors(['Currency is not allowed with selected payment provider']);
