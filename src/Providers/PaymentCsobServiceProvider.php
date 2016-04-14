@@ -11,7 +11,7 @@ class PaymentCsobServiceProvider extends ServiceProvider {
 	public function boot()
 	{
 		// Register the default payment service
-		$this->app['sanatorium.shoporders.payment.services']->registerService(
+		$this->app['sanatorium.orders.payment.services']->registerService(
 			'\Sanatorium\Orderspaymentcsob\Controllers\Services\CsobPaymentService'
 		);
 	}

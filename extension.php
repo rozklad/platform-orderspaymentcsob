@@ -218,7 +218,7 @@ return [
 
 	'settings' => function(Settings $settings, Application $app)
 	{
-		$settings->find('platform')->section('shoporders', function ($s) {
+		$settings->find('platform')->section('orders', function ($s) {
 
             $s->fieldset('orderspaymentcsob', function ($f) {
                 $f->name = trans('sanatorium/orderspaymentcsob::settings.title');

@@ -45,7 +45,7 @@ class CsobPaymentService {
 			config('platform.app.title'),
 
     		// Return URL
-			route('sanatorium.shoporders.cart.placed'),
+			route('sanatorium.orders.cart.placed'),
 
 		    // API address URL
 			config('sanatorium-orderspaymentcsob.api_url')
