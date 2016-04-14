@@ -84,7 +84,7 @@ return [
 	*/
 
 	'require' => [
-		'sanatorium/shoporders'
+		'sanatorium/orders'
 	],
 
 	/*
